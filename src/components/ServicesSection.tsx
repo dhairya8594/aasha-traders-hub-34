@@ -1,4 +1,5 @@
-import { FlaskConical, Globe } from "lucide-react";
+import { FlaskConical, Globe, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -7,6 +8,7 @@ const services = [
     description:
       "Industrial and specialty chemicals for diverse sectors. Strict compliance with safety standards and timely delivery across regions.",
     highlights: ["Industrial Grade", "Safety Certified", "Wide Catalogue"],
+    catalogLink: "/chemicals",
   },
   {
     icon: Globe,
@@ -45,7 +47,7 @@ const ServicesSection = () => {
               <p className="text-muted-foreground leading-relaxed mb-5">
                 {service.description}
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-2 mb-5">
                 {service.highlights.map((h) => (
                   <li key={h} className="flex items-center gap-2 text-sm text-foreground/80">
                     <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
@@ -53,6 +55,14 @@ const ServicesSection = () => {
                   </li>
                 ))}
               </ul>
+              {service.catalogLink && (
+                <Link
+                  to={service.catalogLink}
+                  className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
+                >
+                  View Catalog <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
             </div>
           ))}
         </div>
