@@ -5,7 +5,13 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-app.use(cors());
+/* 🔥 FIXED CORS (IMPORTANT) */
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json());
 
 // MongoDB connect
@@ -30,6 +36,10 @@ app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
 
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
     let reply = "Thank you! We will contact you.";
 
     if (message.toLowerCase().includes("price"))
@@ -41,13 +51,14 @@ app.post("/api/chat", async (req, res) => {
     await Inquiry.create({ message, reply });
 
     res.json({ reply });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// 🔥 Admin route to see all inquiries
+// 🔥 Admin route
 app.get("/api/inquiries", async (req, res) => {
   const data = await Inquiry.find().sort({ createdAt: -1 });
   res.json(data);
