@@ -1,13 +1,6 @@
-import { Shirt, FlaskConical, Globe } from "lucide-react";
+import { FlaskConical, Globe } from "lucide-react";
 
 const services = [
-  {
-    icon: Shirt,
-    title: "Clothing",
-    description:
-      "Premium quality garments and textiles sourced from top manufacturers. From bulk orders to curated collections, we deliver style with reliability.",
-    highlights: ["Bulk & Retail Supply", "Quality Assurance", "Custom Orders"],
-  },
   {
     icon: FlaskConical,
     title: "Chemicals",
