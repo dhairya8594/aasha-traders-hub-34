@@ -1,4 +1,4 @@
-import { Shirt, FlaskConical, Globe } from "lucide-react";
+import { FlaskConical, Globe } from "lucide-react";
 
 const services = [
   {
