@@ -63,12 +63,12 @@ const ChatBot = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim() || completed) return;
-
+  
     const currentStep = steps[step];
     const value = input.trim();
-
+  
     // Validate
     const error = validateStep(currentStep.key, value);
     if (error) {
@@ -77,32 +77,53 @@ const ChatBot = () => {
       setTimeout(() => addMsg("bot", `⚠️ ${error}`), 400);
       return;
     }
-
+  
     addMsg("user", value);
     setInput("");
-
+  
     const newData = { ...formData, [currentStep.key]: value };
     setFormData(newData);
-
+  
     const nextStep = step + 1;
-
+  
     if (nextStep < steps.length) {
       setStep(nextStep);
       setTimeout(() => addMsg("bot", steps[nextStep].prompt), 500);
     } else {
-      // Complete
+      // ✅ FINAL STEP
       setCompleted(true);
+  
+      try {
+        const res = await fetch("https://aasha-traders-backend.onrender.com/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: JSON.stringify(newData),
+          }),
+        });
+  
+        const data = await res.json();
+        console.log("✅ Backend response:", data);
+  
+      } catch (err) {
+        console.error("❌ API Error:", err);
+      }
+  
+      // ✅ Show confirmation UI
       setTimeout(() => {
         addMsg(
           "bot",
-          `Thank you, **${newData.name}**! 🎉\n\nHere's a summary of your inquiry:\n\n` +
+          `Thank you, **${newData.name}**! 🎉\n\nHere's your summary:\n\n` +
           `📧 **Email:** ${newData.email}\n` +
           `📞 **Phone:** ${newData.phone}\n` +
           `📍 **Address:** ${newData.address}\n` +
           `🏷️ **Service:** ${newData.service}\n` +
           `💬 **Message:** ${newData.message}\n\n` +
-          `Our team will get back to you within **24 hours**. You can also reach us at **info@aashatraders.com**.`
+          `Our team will contact you within **24 hours**.`
         );
+  
         toast({
           title: "Inquiry Submitted!",
           description: "We'll get back to you within 24 hours.",
@@ -122,7 +143,7 @@ const ChatBot = () => {
 
   return (
     <>
-      {/* Floating Button */}
+     {/* Floating Button */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
