@@ -16,6 +16,8 @@ const services = [
     description:
       "End-to-end international trade solutions. We handle documentation, logistics, and compliance so you can focus on growing your business.",
     highlights: ["Global Network", "Custom Clearance", "Logistics Support"],
+    expLink: "/aasha-traders-hub-34/src/pages/ExportDetails.tsx",
+
   },
 ];
 
@@ -31,7 +33,7 @@ const ServicesSection = () => {
             Our Core Services
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {services.map((service) => (
             <div
               key={service.title}
@@ -61,6 +63,14 @@ const ServicesSection = () => {
                   className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
                 >
                   View Catalog <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+              {service.expLink && (
+                <Link
+                  to={service.expLink}
+                  className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
+                >
+                  Coming Soon <ArrowRight className="w-4 h-4" />
                 </Link>
               )}
             </div>

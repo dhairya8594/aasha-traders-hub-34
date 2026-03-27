@@ -15,8 +15,8 @@ const ContactSection = () => {
         <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
           {[
             { icon: Mail, label: "Email", value: "info@aashatraders.com" },
-            { icon: Phone, label: "Phone", value: "+91 98XXX XXXXX" },
-            { icon: MapPin, label: "Location", value: "India" },
+            { icon: Phone, label: "Phone", value: "+91 9270968565" },
+            { icon: MapPin, label: "Location", value: "Pune , Maharashtra , India" },
           ].map((item) => (
             <div key={item.label} className="text-center">
               <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center mx-auto mb-4">

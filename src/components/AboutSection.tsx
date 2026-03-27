@@ -4,7 +4,7 @@ const stats = [
   { icon: Award, value: "10+", label: "Years Experience" },
   { icon: Users, value: "500+", label: "Happy Clients" },
   { icon: TrendingUp, value: "1000+", label: "Orders Delivered" },
-  { icon: MapPin, value: "20+", label: "Countries Served" },
+  { icon: MapPin, value: "Pune" },
 ];
 
 const AboutSection = () => {

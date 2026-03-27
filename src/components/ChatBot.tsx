@@ -6,7 +6,7 @@ import { toast } from "@/hooks/use-toast";
 
 type Message = {
   id: number;
-  from: "bot" | "user";
+  from: "bot" | "user"; 
   text: string;
 };
 
@@ -100,15 +100,29 @@ const ChatBot = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: JSON.stringify(newData),
+            name: newData.name,
+            email: newData.email,
+            phone: newData.phone,
+            address: newData.address,
+            service: newData.service,
+            message: newData.message,
           }),
         });
-  
+      
+        if (!res.ok) throw new Error("Server error");
+      
         const data = await res.json();
         console.log("✅ Backend response:", data);
-  
+      
       } catch (err) {
         console.error("❌ API Error:", err);
+      
+        addMsg("bot", "⚠️ Failed to submit inquiry. Please try again.");
+      
+        toast({
+          title: "Error",
+          description: "Failed to submit inquiry",
+        });
       }
   
       // ✅ Show confirmation UI
