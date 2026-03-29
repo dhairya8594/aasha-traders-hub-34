@@ -8,51 +8,50 @@ import NotFound from "./pages/NotFound.tsx";
 import ChemicalCatalog from "./pages/ChemicalCatalog.tsx";
 import { Helmet } from "react-helmet-async";
 
-
-  <Helmet>
-    <title>Aasha Traders | Chemicals & Export Import Services</title>
-
-    <meta
-      name="description"
-      content="Aasha Traders provides chemical products and export-import services across India. Contact us for bulk orders and business inquiries."
-    />
-
-    <meta
-      name="keywords"
-      content="chemicals, export import, cleaning products, Aasha Traders India"
-    />
-
-    <meta name="robots" content="index, follow" />
-
-    {/* Bing Verification (ADD YOUR CODE HERE) */}
-    <meta name="msvalidate.01" content="YOUR_BING_CODE" />
-
-    {/* Open Graph */}
-    <meta property="og:title" content="Aasha Traders" />
-    <meta property="og:description" content="Chemical & EXIM services" />
-    <meta property="og:url" content="https://aashatraders.com" />
-  </Helmet>
-
-  {/* Your existing UI below */}
-
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+
+      {/* ✅ SEO Helmet INSIDE component */}
+      <Helmet>
+        <title>Aasha Traders | Chemicals & Export Import Services</title>
+
+        <meta
+          name="description"
+          content="Aasha Traders provides chemical products and export-import services across India. Contact us for bulk orders and business inquiries."
+        />
+
+        <meta
+          name="keywords"
+          content="chemicals, export import, cleaning products, Aasha Traders India"
+        />
+
+        <meta name="robots" content="index, follow" />
+
+        {/* Bing Verification */}
+        <meta name="msvalidate.01" content="YOUR_BING_CODE" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="Aasha Traders" />
+        <meta property="og:description" content="Chemical & EXIM services" />
+        <meta property="og:url" content="https://aashatraders.com" />
+      </Helmet>
+
       <Toaster />
       <Sonner />
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/chemicals" element={<ChemicalCatalog />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+
     </TooltipProvider>
   </QueryClientProvider>
-  
 );
 
 export default App;
