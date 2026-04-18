@@ -7,6 +7,7 @@ import { Search, Filter, ShoppingCart, Star, Store, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import chemovrLogo from "@/assets/ChemovrLogo.png";
 import {
   Select,
   SelectContent,
@@ -56,9 +57,9 @@ const Shop = () => {
       <section className="pt-24 pb-12 bg-primary">
         <div className="container">
         <img
-    src="/src/assets/ChemovrLogo.png"  // 👉 your logo path
+    src={chemovrLogo}  
     alt="Chemovr Clear Logo"
-    className="w-40 md:w-50 mb-4 object-contain"
+    className="w-40 md:w-50 mb-4 object-contain mx-auto"
   />
           <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
