@@ -9,6 +9,7 @@ const services = [
       "Industrial and specialty chemicals for diverse sectors. Strict compliance with safety standards and timely delivery across regions.",
     highlights: ["Industrial Grade", "Safety Certified", "Wide Catalogue"],
     catalogLink: "/chemicals",
+    shopLink: "/shop",
   },
   {
     icon: Globe,
@@ -57,14 +58,24 @@ const ServicesSection = () => {
                   </li>
                 ))}
               </ul>
-              {service.catalogLink && (
-                <Link
-                  to={service.catalogLink}
-                  className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
-                >
-                  View Catalog <ArrowRight className="w-4 h-4" />
-                </Link>
-              )}
+              <div className="flex flex-wrap items-center gap-4">
+                {service.catalogLink && (
+                  <Link
+                    to={service.catalogLink}
+                    className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
+                  >
+                    View Catalog <ArrowRight className="w-4 h-4" />
+                  </Link>
+                )}
+                {service.shopLink && (
+                  <Link
+                    to={service.shopLink}
+                    className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
+                  >
+                    Visit Shop <ArrowRight className="w-4 h-4" />
+                  </Link>
+                )}
+              </div>
               {service.expLink && (
                 <Link
                   to={service.expLink}
