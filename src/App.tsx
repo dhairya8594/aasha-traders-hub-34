@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChemicalCatalog from "./pages/ChemicalCatalog.tsx";
+import Shop from "./pages/Shop.tsx";
+import ProductDetail from "./pages/ProductDetail.tsx";
+import { CartProvider } from "./context/CartContext";
 import { Helmet } from "react-helmet-async";
 
 const queryClient = new QueryClient();
@@ -43,11 +46,15 @@ const App = () => (
       <Sonner />
 
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/chemicals" element={<ChemicalCatalog />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/chemicals" element={<ChemicalCatalog />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:id" element={<ProductDetail />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </CartProvider>
       </BrowserRouter>
 
     </TooltipProvider>
