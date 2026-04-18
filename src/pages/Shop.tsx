@@ -52,16 +52,19 @@ const Shop = () => {
       <Navbar />
 
       {/* Hero */}
+
       <section className="pt-24 pb-12 bg-primary">
         <div className="container">
+        <img
+    src="/src/assets/ChemovrLogo.png"  // 👉 your logo path
+    alt="Chemovr Clear Logo"
+    className="w-40 md:w-50 mb-4 object-contain"
+  />
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-secondary/20 text-secondary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-                <Store className="w-4 h-4" />
-                Online Shop
-              </div>
+          <div>
+         
               <h1 className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground mb-2">
-                Aasha Chemical Store
+                Chemvour Clear
               </h1>
               <p className="text-primary-foreground/70 max-w-2xl text-lg">
                 Order industrial, lab & agro chemicals online. Fast quotes, bulk pricing, pan-India delivery.

@@ -161,38 +161,54 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Related */}
-          {related.length > 0 && (
-            <div className="mt-16">
-              <h2 className="text-2xl font-heading font-bold text-foreground mb-6">Related products</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {related.map((p) => (
-                  <Link
-                    key={p.id}
-                    to={`/shop/${p.id}`}
-                    className="group bg-card rounded-xl border border-border overflow-hidden hover:border-secondary/40 transition-all"
-                    style={{ boxShadow: "var(--shadow-card)" }}
-                  >
-                    <div className="aspect-square bg-muted overflow-hidden">
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-heading font-semibold text-foreground line-clamp-1 group-hover:text-secondary transition-colors">
-                        {p.name}
-                      </h3>
-                      <p className="text-sm font-bold text-foreground mt-1">
-                        ₹{p.price.toLocaleString("en-IN")}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
+         {/* Size Options */}
+{related.length > 0 && (
+  <div className="mt-16">
+    <h2 className="text-2xl font-heading font-bold text-foreground mb-2">
+      Available Sizes
+    </h2>
+    <p className="text-sm text-muted-foreground mb-6">
+      Same product, different pack sizes
+    </p>
+
+    <div className="flex flex-wrap gap-4">
+      {/* Current product — shown as "selected" */}
+      <div
+        className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-secondary bg-secondary/10 min-w-[110px] cursor-default"
+      >
+        <span className="text-xs font-semibold text-secondary uppercase tracking-wide">
+          Selected
+        </span>
+        <span className="text-lg font-bold text-foreground">
+          {product.packSize}
+        </span>
+        <span className="text-sm font-semibold text-foreground">
+          ₹{product.price.toLocaleString("en-IN")}
+        </span>
+      </div>
+
+      {/* Related sizes */}
+      {related.map((p) => (
+        <Link
+          key={p.id}
+          to={`/shop/${p.id}`}
+          className="flex flex-col items-center gap-2 p-4 rounded-xl border border-border bg-card hover:border-secondary/60 hover:bg-secondary/5 transition-all min-w-[110px]"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          <span className="text-xs text-muted-foreground uppercase tracking-wide">
+            {p.inStock ? "In Stock" : "Out of stock"}
+          </span>
+          <span className="text-lg font-bold text-foreground">
+            {p.packSize}
+          </span>
+          <span className="text-sm font-semibold text-foreground">
+            ₹{p.price.toLocaleString("en-IN")}
+          </span>
+        </Link>
+      ))}
+    </div>
+  </div>
+)}
         </div>
       </section>
 

@@ -8,7 +8,7 @@ const services = [
     description:
       "Industrial and specialty chemicals for diverse sectors. Strict compliance with safety standards and timely delivery across regions.",
     highlights: ["Industrial Grade", "Safety Certified", "Wide Catalogue"],
-    catalogLink: "/chemicals",
+   // catalogLink: "/chemicals",//
     shopLink: "/shop",
   },
   {
