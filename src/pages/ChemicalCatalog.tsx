@@ -206,10 +206,10 @@ const ChemicalCatalog = () => {
             Chemical Division
           </div>
           <h1 className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground mb-4">
-            Chemical Product Catalog
+            Chemovr Clear Product Catalog
           </h1>
           <p className="text-primary-foreground/70 max-w-2xl mx-auto text-lg">
-            Browse our comprehensive range of industrial, specialty, and laboratory chemicals. All products meet strict quality and safety standards.
+            Browse our complete range of cleaning, hygiene, and home-care products. Choose your size and fragrance, then request a quote.
           </p>
         </div>
       </section>
