@@ -12,6 +12,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const PLACEHOLDER_IMG =
+  "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80";
+const SIZE_OPTIONS = ["200ml", "250ml", "500ml", "1L", "5L"] as const;
+
+
 const categories = ["All", "Industrial", "Specialty", "Laboratory", "Agricultural", "Pharmaceutical"] as const;
 
 type Product = {
@@ -21,6 +26,8 @@ type Product = {
   grade: string;
   packaging: string;
   description: string;
+  image?: string;
+  sizes?: readonly string[];
 };
 
 const products: Product[] = [
@@ -125,6 +132,7 @@ const products: Product[] = [
 const ChemicalCatalog = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
 
   const filtered = products.filter((p) => {
     const matchSearch =
@@ -199,50 +207,84 @@ const ChemicalCatalog = () => {
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((product) => (
-                <div
-                  key={product.cas}
-                  className="group bg-card rounded-xl border border-border hover:border-secondary/40 transition-all duration-300 overflow-hidden"
-                  style={{ boxShadow: "var(--shadow-card)" }}
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-lg font-heading font-semibold text-foreground group-hover:text-secondary transition-colors">
-                        {product.name}
-                      </h3>
-                      <Badge variant="secondary" className="shrink-0 ml-2 text-xs">
-                        {product.category}
-                      </Badge>
+              {filtered.map((product) => {
+                const sizes = product.sizes ?? SIZE_OPTIONS;
+                const selectedSize = selectedSizes[product.cas] ?? sizes[0];
+                return (
+                  <div
+                    key={product.cas}
+                    className="group bg-card rounded-xl border border-border hover:border-secondary/40 transition-all duration-300 overflow-hidden flex flex-col"
+                    style={{ boxShadow: "var(--shadow-card)" }}
+                  >
+                    <div className="aspect-square bg-muted overflow-hidden">
+                      <img
+                        src={product.image ?? PLACEHOLDER_IMG}
+                        alt={product.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                      {product.description}
-                    </p>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">CAS No.</span>
-                        <span className="text-foreground font-mono">{product.cas}</span>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="text-lg font-heading font-semibold text-foreground group-hover:text-secondary transition-colors">
+                          {product.name}
+                        </h3>
+                        <Badge variant="secondary" className="shrink-0 ml-2 text-xs">
+                          {product.category}
+                        </Badge>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Grade</span>
-                        <span className="text-foreground">{product.grade}</span>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                        {product.description}
+                      </p>
+                      <div className="space-y-2 text-sm mb-4">
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">CAS No.</span>
+                          <span className="text-foreground font-mono">{product.cas}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Grade</span>
+                          <span className="text-foreground">{product.grade}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Packaging</span>
+                          <span className="text-foreground">{product.packaging}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Packaging</span>
-                        <span className="text-foreground">{product.packaging}</span>
+                      <div className="mt-auto">
+                        <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                          Select Size
+                        </label>
+                        <Select
+                          value={selectedSize}
+                          onValueChange={(v) =>
+                            setSelectedSizes((prev) => ({ ...prev, [product.cas]: v }))
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {sizes.map((s) => (
+                              <SelectItem key={s} value={s}>
+                                {s}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
+                    </div>
+                    <div className="border-t border-border px-6 py-3 bg-muted/30">
+                      <a
+                        href="#contact"
+                        onClick={() => (window.location.href = "/#contact")}
+                        className="text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
+                      >
+                        Request Quote ({selectedSize}) →
+                      </a>
                     </div>
                   </div>
-                  <div className="border-t border-border px-6 py-3 bg-muted/30">
-                    <a
-                      href="#contact"
-                      onClick={() => window.location.href = "/#contact"}
-                      className="text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
-                    >
-                      Request Quote →
-                    </a>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
