@@ -44,6 +44,7 @@ const categories = [
   "Laundry",
   "Air Care",
   "Glass Care",
+  "Car Care",
 ] as const;
 
 type Product = {
@@ -64,58 +65,84 @@ const products: Product[] = [
     id: "toilet-cleaner",
     name: "Toilet Cleaner",
     category: "Bathroom",
-    description: "Powerful disinfectant that removes tough stains and kills 99.9% of germs, leaving your toilet sparkling clean.",
+    image: "/products/toilet-cleaner.png",
+    description:
+      "Powerful disinfectant that removes tough stains and kills 99.9% of germs, leaving your toilet sparkling clean.",
   },
   {
     id: "floor-cleaner",
     name: "Floor Cleaner",
     category: "Floor & Surface",
-    description: "Long-lasting fragrance with deep cleaning action for all floor types. Cuts through dirt and grease effortlessly.",
+    image: "/products/floor-cleaner.png",
+    description:
+      "Long-lasting fragrance with deep cleaning action for all floor types. Cuts through dirt and grease effortlessly.",
     fragrances: FLORAL_FRAGRANCES,
   },
   {
     id: "gentle-liquid-soap",
     name: "Gentle Liquid Soap (Hand Wash)",
     category: "Personal Care",
-    description: "Mild, moisturising hand wash that cleanses gently while keeping skin soft and fresh.",
+    image: "/products/handwash.png",
+    description:
+      "Mild, moisturising hand wash that cleanses gently while keeping skin soft and fresh.",
     fragrances: HANDWASH_FRAGRANCES,
   },
   {
     id: "dish-wash",
     name: "Dish Wash Liquid",
     category: "Kitchen",
-    description: "Tough on grease, gentle on hands. Cuts through stubborn oil for spotless, shiny utensils.",
+    image: "/products/dish-wash.png",
+    description:
+      "Tough on grease, gentle on hands. Cuts through stubborn oil for spotless, shiny utensils.",
   },
   {
     id: "fabric-detergent",
     name: "Fabric Detergent",
     category: "Laundry",
-    description: "High-performance liquid detergent that removes tough stains while caring for fabric colours and fibres.",
+    image: "/products/fabric-detergent.png",
+    description:
+      "High-performance liquid detergent that removes tough stains while caring for fabric colours and fibres.",
   },
   {
     id: "fabric-conditioner",
     name: "Fabric Conditioner",
     category: "Laundry",
-    description: "Softens fabrics, reduces wrinkles, and leaves clothes with a long-lasting fresh fragrance.",
+    image: "/products/fabric-conditioner.png",
+    description:
+      "Softens fabrics, reduces wrinkles, and leaves clothes with a long-lasting fresh fragrance.",
   },
   {
     id: "multipurpose-cleaning-liquid",
     name: "Multipurpose Cleaning Liquid",
     category: "Floor & Surface",
-    description: "All-in-one cleaner for floors, tiles, kitchen surfaces, and more. Disinfects and refreshes any space.",
+    image: "/products/multipurpose-cleaner.png",
+    description:
+      "All-in-one cleaner for floors, tiles, kitchen surfaces, and more. Disinfects and refreshes any space.",
   },
   {
     id: "room-freshener",
     name: "Room Freshener",
     category: "Air Care",
-    description: "Instantly neutralises odours and fills your space with a long-lasting refreshing fragrance.",
+    image: "/products/room-freshener.png",
+    description:
+      "Instantly neutralises odours and fills your space with a long-lasting refreshing fragrance.",
     fragrances: HANDWASH_FRAGRANCES,
   },
   {
     id: "glass-cleaner",
     name: "Glass Cleaner",
     category: "Glass Care",
-    description: "Streak-free shine for glass, mirrors, and windows. Quick-drying formula with no residue.",
+    image: "/products/glass-cleaner.png",
+    description:
+      "Streak-free shine for glass, mirrors, and windows. Quick-drying formula with no residue.",
+  },
+  {
+    id: "car-wash",
+    name: "Car wash",
+    category: "Car Care",
+    image: "/products/car-cleaner.png",
+    description:
+      "Streak-free shine for glass, mirrors, and windows. Quick-drying formula with no residue.",
   },
 ];
 

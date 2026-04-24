@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ChemicalCatalog from "./pages/ChemicalCatalog.tsx";
+import ExportDetails from "./pages/ExportDetails.tsx"
 import { Helmet } from "react-helmet-async";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/chemicals" element={<ChemicalCatalog />} />
+          <Route path="/Expo" element={<ExportDetails />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

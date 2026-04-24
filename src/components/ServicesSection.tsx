@@ -16,7 +16,7 @@ const services = [
     description:
       "End-to-end international trade solutions. We handle documentation, logistics, and compliance so you can focus on growing your business.",
     highlights: ["Global Network", "Custom Clearance", "Logistics Support"],
-    expLink: "/aasha-traders-hub-34/src/pages/ExportDetails.tsx",
+    expLink: "/Expo",
 
   },
 ];
