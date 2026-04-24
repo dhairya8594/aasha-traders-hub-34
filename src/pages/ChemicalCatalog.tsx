@@ -354,6 +354,120 @@ const ChemicalCatalog = () => {
         </div>
       </section>
 
+      {/* Floating Quote Button */}
+      {totalQty > 0 && (
+        <Button
+          onClick={() => setDrawerOpen(true)}
+          size="lg"
+          className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full h-14 px-6"
+        >
+          <FileText className="w-5 h-5" />
+          View Quote
+          <span className="ml-1 bg-primary-foreground text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+            {totalQty}
+          </span>
+        </Button>
+      )}
+
+      {/* Quote Drawer */}
+      <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <SheetContent className="w-full sm:max-w-md flex flex-col">
+          <SheetHeader>
+            <SheetTitle>Your Quote Request</SheetTitle>
+          </SheetHeader>
+
+          {quote.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center">
+              <FileText className="w-12 h-12 text-muted-foreground/40 mb-3" />
+              <p className="text-muted-foreground">No products added yet.</p>
+            </div>
+          ) : (
+            <>
+              <div className="flex-1 overflow-y-auto py-4 space-y-3">
+                {quote.map((item) => (
+                  <div
+                    key={`${item.cas}-${item.size}`}
+                    className="flex items-start gap-3 p-3 rounded-lg border border-border bg-card"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-foreground text-sm line-clamp-2">{item.name}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">Size: {item.size}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() => updateQty(item.cas, item.size, -1)}
+                        >
+                          <Minus className="w-3 h-3" />
+                        </Button>
+                        <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() => updateQty(item.cas, item.size, 1)}
+                        >
+                          <Plus className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      onClick={() => removeItem(item.cas, item.size)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+
+                <div className="space-y-3 pt-4 border-t border-border">
+                  <p className="text-sm font-medium text-foreground">Your details</p>
+                  <Input
+                    placeholder="Your name *"
+                    value={contact.name}
+                    onChange={(e) => setContact({ ...contact, name: e.target.value })}
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Email *"
+                    value={contact.email}
+                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                  />
+                  <Input
+                    placeholder="Phone (optional)"
+                    value={contact.phone}
+                    onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                  />
+                  <Textarea
+                    placeholder="Additional notes (optional)"
+                    rows={3}
+                    value={contact.notes}
+                    onChange={(e) => setContact({ ...contact, notes: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <SheetFooter className="flex-col gap-2 sm:flex-col">
+                <Button onClick={submitQuote} className="w-full" size="lg">
+                  Submit Quote Request
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setQuote([])}
+                  className="w-full"
+                >
+                  <X className="w-4 h-4" />
+                  Clear All
+                </Button>
+              </SheetFooter>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
+
       <Footer />
     </div>
   );
