@@ -302,7 +302,7 @@ const ChemicalCatalog = () => {
                       <div className="space-y-2 text-sm mb-4">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Packaging</span>
-                          <span className="text-foreground">{product.packaging}</span>
+                          <span className="text-foreground">{selectedSize} Bottle</span>
                         </div>
                       </div>
                       <div className="mt-auto">
