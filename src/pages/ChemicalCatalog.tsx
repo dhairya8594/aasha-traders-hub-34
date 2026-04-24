@@ -23,9 +23,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const API_URL = "https://aasha-traders-backend.onrender.com";
 const PLACEHOLDER_IMG =
   "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80";
+
 const SIZE_OPTIONS = ["200ml", "250ml", "500ml", "1L", "5L"] as const;
+
 const SIZE_PACKAGING: Record<string, string> = {
   "200ml": "40 PCS BOX",
   "250ml": "78 PCS BOX",
@@ -33,7 +36,6 @@ const SIZE_PACKAGING: Record<string, string> = {
   "1L": "20 PCS BOX",
   "5L": "4 CAN BOX",
 };
-
 
 const categories = [
   "All",
@@ -165,33 +167,62 @@ const ChemicalCatalog = () => {
   const [selectedFragrances, setSelectedFragrances] = useState<Record<string, string>>({});
   const [quote, setQuote] = useState<QuoteItem[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
+  const [contact, setContact] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    notes: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
 
   const filtered = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.description.toLowerCase().includes(search.toLowerCase());
+
     const matchCategory = category === "All" || p.category === category;
+
     return matchSearch && matchCategory;
   });
 
   const addToQuote = (product: Product, size: string, fragrance?: string) => {
     const key = makeKey(product.id, size, fragrance);
     const displayName = fragrance ? `${product.name} – ${fragrance}` : product.name;
+
     setQuote((prev) => {
       const existing = prev.find((i) => i.key === key);
+
       if (existing) {
-        return prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + 1 } : i));
+        return prev.map((i) =>
+          i.key === key ? { ...i, quantity: i.quantity + 1 } : i
+        );
       }
-      return [...prev, { key, productId: product.id, name: displayName, size, fragrance, quantity: 1 }];
+
+      return [
+        ...prev,
+        {
+          key,
+          productId: product.id,
+          name: displayName,
+          size,
+          fragrance,
+          quantity: 1,
+        },
+      ];
     });
-    toast({ title: "Added to quote", description: `${displayName} (${size})` });
+
+    toast({
+      title: "Added to quote",
+      description: `${displayName} (${size})`,
+    });
   };
 
   const updateQty = (key: string, delta: number) => {
     setQuote((prev) =>
       prev
-        .map((i) => (i.key === key ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i))
+        .map((i) =>
+          i.key === key ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
+        )
         .filter((i) => i.quantity > 0)
     );
   };
@@ -200,18 +231,67 @@ const ChemicalCatalog = () => {
     setQuote((prev) => prev.filter((i) => i.key !== key));
   };
 
-  const submitQuote = () => {
+  const submitQuote = async () => {
     if (!contact.name || !contact.email) {
-      toast({ title: "Missing info", description: "Please enter your name and email.", variant: "destructive" });
+      toast({
+        title: "Missing info",
+        description: "Please enter your name and email.",
+        variant: "destructive",
+      });
       return;
     }
-    toast({
-      title: "Quote request sent",
-      description: `We'll get back to you about ${quote.length} product${quote.length > 1 ? "s" : ""}.`,
-    });
-    setQuote([]);
-    setContact({ name: "", email: "", phone: "", notes: "" });
-    setDrawerOpen(false);
+
+    if (quote.length === 0) {
+      toast({
+        title: "No products selected",
+        description: "Please add at least one product.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+
+      const response = await fetch(`${API_URL}/api/quotes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer: contact,
+          items: quote,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit quote");
+      }
+
+      toast({
+        title: "Quote request sent",
+        description: "We'll get back to you soon.",
+      });
+
+      setQuote([]);
+      setContact({
+        name: "",
+        email: "",
+        phone: "",
+        notes: "",
+      });
+      setDrawerOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Quote request failed. Please check backend is running.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const totalQty = quote.reduce((sum, i) => sum + i.quantity, 0);
@@ -220,7 +300,6 @@ const ChemicalCatalog = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Hero Banner */}
       <section className="pt-24 pb-16 bg-primary">
         <div className="container text-center">
           <img
@@ -228,20 +307,23 @@ const ChemicalCatalog = () => {
             alt="Chemovr Clear Logo"
             className="w-40 md:w-56 mx-auto mb-6 object-contain"
           />
+
           <div className="inline-flex items-center gap-2 bg-secondary/20 text-secondary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
             <FlaskConical className="w-4 h-4" />
             Chemical Division
           </div>
+
           <h1 className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground mb-4">
             Chemovr Clear Product Catalog
           </h1>
+
           <p className="text-primary-foreground/70 max-w-2xl mx-auto text-lg">
-            Browse our complete range of cleaning, hygiene, and home-care products. Choose your size and fragrance, then request a quote.
+            Browse our complete range of cleaning, hygiene, and home-care products.
+            Choose your size and fragrance, then request a quote.
           </p>
         </div>
       </section>
 
-      {/* Filters */}
       <section className="py-8 border-b border-border bg-card sticky top-16 z-40">
         <div className="container flex flex-col sm:flex-row gap-4 items-center">
           <div className="relative flex-1 w-full">
@@ -253,12 +335,15 @@ const ChemicalCatalog = () => {
               className="pl-10"
             />
           </div>
+
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
+
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
               </SelectTrigger>
+
               <SelectContent>
                 {categories.map((c) => (
                   <SelectItem key={c} value={c}>
@@ -271,17 +356,21 @@ const ChemicalCatalog = () => {
         </div>
       </section>
 
-      {/* Product Grid */}
       <section className="py-12">
         <div className="container">
           <p className="text-sm text-muted-foreground mb-6">
             Showing {filtered.length} of {products.length} products
           </p>
+
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <FlaskConical className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-              <p className="text-muted-foreground text-lg">No products match your search.</p>
-              <p className="text-muted-foreground/60 text-sm mt-1">Try a different keyword or category.</p>
+              <p className="text-muted-foreground text-lg">
+                No products match your search.
+              </p>
+              <p className="text-muted-foreground/60 text-sm mt-1">
+                Try a different keyword or category.
+              </p>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -289,9 +378,11 @@ const ChemicalCatalog = () => {
                 const sizes = product.sizes ?? SIZE_OPTIONS;
                 const selectedSize = selectedSizes[product.id] ?? sizes[0];
                 const fragrances = product.fragrances;
+
                 const selectedFragrance = fragrances
                   ? selectedFragrances[product.id] ?? fragrances[0]
                   : undefined;
+
                 return (
                   <div
                     key={product.id}
@@ -306,39 +397,51 @@ const ChemicalCatalog = () => {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
+
                     <div className="p-6 flex-1 flex flex-col">
                       <div className="flex items-start justify-between mb-3">
                         <h3 className="text-lg font-heading font-semibold text-foreground group-hover:text-secondary transition-colors">
                           {product.name}
                         </h3>
+
                         <Badge variant="secondary" className="shrink-0 ml-2 text-xs">
                           {product.category}
                         </Badge>
                       </div>
+
                       <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                         {product.description}
                       </p>
+
                       <div className="space-y-2 text-sm mb-4">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Packaging</span>
-                          <span className="text-foreground">{SIZE_PACKAGING[selectedSize] ?? selectedSize}</span>
+                          <span className="text-foreground">
+                            {SIZE_PACKAGING[selectedSize] ?? selectedSize}
+                          </span>
                         </div>
                       </div>
+
                       <div className="mt-auto space-y-3">
                         {fragrances && (
                           <div>
                             <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                               Fragrance
                             </label>
+
                             <Select
                               value={selectedFragrance}
                               onValueChange={(v) =>
-                                setSelectedFragrances((prev) => ({ ...prev, [product.id]: v }))
+                                setSelectedFragrances((prev) => ({
+                                  ...prev,
+                                  [product.id]: v,
+                                }))
                               }
                             >
                               <SelectTrigger className="w-full">
                                 <SelectValue />
                               </SelectTrigger>
+
                               <SelectContent>
                                 {fragrances.map((f) => (
                                   <SelectItem key={f} value={f}>
@@ -349,19 +452,25 @@ const ChemicalCatalog = () => {
                             </Select>
                           </div>
                         )}
+
                         <div>
                           <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                             Select Size
                           </label>
+
                           <Select
                             value={selectedSize}
                             onValueChange={(v) =>
-                              setSelectedSizes((prev) => ({ ...prev, [product.id]: v }))
+                              setSelectedSizes((prev) => ({
+                                ...prev,
+                                [product.id]: v,
+                              }))
                             }
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue />
                             </SelectTrigger>
+
                             <SelectContent>
                               {sizes.map((s) => (
                                 <SelectItem key={s} value={s}>
@@ -373,11 +482,14 @@ const ChemicalCatalog = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="border-t border-border px-6 py-3 bg-muted/30">
                       <Button
                         size="sm"
                         className="w-full"
-                        onClick={() => addToQuote(product, selectedSize, selectedFragrance)}
+                        onClick={() =>
+                          addToQuote(product, selectedSize, selectedFragrance)
+                        }
                       >
                         <Plus className="w-4 h-4" />
                         Add to Quote ({selectedSize})
@@ -391,7 +503,6 @@ const ChemicalCatalog = () => {
         </div>
       </section>
 
-      {/* Floating Quote Button */}
       {totalQty > 0 && (
         <Button
           onClick={() => setDrawerOpen(true)}
@@ -406,7 +517,6 @@ const ChemicalCatalog = () => {
         </Button>
       )}
 
-      {/* Quote Drawer */}
       <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
         <SheetContent className="w-full sm:max-w-md flex flex-col">
           <SheetHeader>
@@ -427,8 +537,14 @@ const ChemicalCatalog = () => {
                     className="flex items-start gap-3 p-3 rounded-lg border border-border bg-card"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-foreground text-sm line-clamp-2">{item.name}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">Size: {item.size}</p>
+                      <p className="font-medium text-foreground text-sm line-clamp-2">
+                        {item.name}
+                      </p>
+
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Size: {item.size}
+                      </p>
+
                       <div className="flex items-center gap-2 mt-2">
                         <Button
                           variant="outline"
@@ -438,7 +554,11 @@ const ChemicalCatalog = () => {
                         >
                           <Minus className="w-3 h-3" />
                         </Button>
-                        <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+
+                        <span className="text-sm font-medium w-8 text-center">
+                          {item.quantity}
+                        </span>
+
                         <Button
                           variant="outline"
                           size="icon"
@@ -449,6 +569,7 @@ const ChemicalCatalog = () => {
                         </Button>
                       </div>
                     </div>
+
                     <Button
                       variant="ghost"
                       size="icon"
@@ -461,40 +582,61 @@ const ChemicalCatalog = () => {
                 ))}
 
                 <div className="space-y-3 pt-4 border-t border-border">
-                  <p className="text-sm font-medium text-foreground">Your details</p>
+                  <p className="text-sm font-medium text-foreground">
+                    Your details
+                  </p>
+
                   <Input
                     placeholder="Your name *"
                     value={contact.name}
-                    onChange={(e) => setContact({ ...contact, name: e.target.value })}
+                    onChange={(e) =>
+                      setContact({ ...contact, name: e.target.value })
+                    }
                   />
+
                   <Input
                     type="email"
                     placeholder="Email *"
                     value={contact.email}
-                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                    onChange={(e) =>
+                      setContact({ ...contact, email: e.target.value })
+                    }
                   />
+
                   <Input
                     placeholder="Phone (optional)"
                     value={contact.phone}
-                    onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                    onChange={(e) =>
+                      setContact({ ...contact, phone: e.target.value })
+                    }
                   />
+
                   <Textarea
                     placeholder="Additional notes (optional)"
                     rows={3}
                     value={contact.notes}
-                    onChange={(e) => setContact({ ...contact, notes: e.target.value })}
+                    onChange={(e) =>
+                      setContact({ ...contact, notes: e.target.value })
+                    }
                   />
                 </div>
               </div>
 
               <SheetFooter className="flex-col gap-2 sm:flex-col">
-                <Button onClick={submitQuote} className="w-full" size="lg">
-                  Submit Quote Request
+                <Button
+                  onClick={submitQuote}
+                  className="w-full"
+                  size="lg"
+                  disabled={submitting}
+                >
+                  {submitting ? "Submitting..." : "Submit Quote Request"}
                 </Button>
+
                 <Button
                   variant="outline"
                   onClick={() => setQuote([])}
                   className="w-full"
+                  disabled={submitting}
                 >
                   <X className="w-4 h-4" />
                   Clear All
