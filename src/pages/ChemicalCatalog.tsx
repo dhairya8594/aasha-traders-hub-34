@@ -25,6 +25,13 @@ import {
 const PLACEHOLDER_IMG =
   "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80";
 const SIZE_OPTIONS = ["200ml", "250ml", "500ml", "1L", "5L"] as const;
+const SIZE_PACKAGING: Record<string, string> = {
+  "200ml": "40 PCS BOX",
+  "250ml": "78 PCS BOX",
+  "500ml": "30 PCS BOX",
+  "1L": "20 PCS BOX",
+  "5L": "4 CAN BOX",
+};
 
 
 const categories = ["All", "Industrial", "Specialty", "Laboratory", "Agricultural", "Pharmaceutical"] as const;
@@ -302,7 +309,7 @@ const ChemicalCatalog = () => {
                       <div className="space-y-2 text-sm mb-4">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Packaging</span>
-                          <span className="text-foreground">{selectedSize} Bottle</span>
+                          <span className="text-foreground">{SIZE_PACKAGING[selectedSize] ?? selectedSize}</span>
                         </div>
                       </div>
                       <div className="mt-auto">
