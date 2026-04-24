@@ -35,115 +35,87 @@ const SIZE_PACKAGING: Record<string, string> = {
 };
 
 
-const categories = ["All", "Industrial", "Specialty", "Laboratory", "Agricultural", "Pharmaceutical"] as const;
+const categories = [
+  "All",
+  "Bathroom",
+  "Floor & Surface",
+  "Personal Care",
+  "Kitchen",
+  "Laundry",
+  "Air Care",
+  "Glass Care",
+] as const;
 
 type Product = {
+  id: string;
   name: string;
-  cas: string;
-  category: string;
-  grade: string;
-  packaging: string;
+  category: typeof categories[number];
   description: string;
   image?: string;
   sizes?: readonly string[];
+  fragrances?: readonly string[];
 };
+
+const FLORAL_FRAGRANCES = ["Lavender", "Lemon", "Jasmine", "Rose"] as const;
+const HANDWASH_FRAGRANCES = ["Rose", "Lemon", "Peach", "Lavender", "Green Apple"] as const;
 
 const products: Product[] = [
   {
-    name: "Sulfuric Acid",
-    cas: "7664-93-9",
-    category: "Industrial",
-    grade: "Technical Grade",
-    packaging: "35 kg Carboys / Tanker",
-    description: "Widely used in manufacturing, fertilizers, and chemical synthesis. Available in various concentrations.",
+    id: "toilet-cleaner",
+    name: "Toilet Cleaner",
+    category: "Bathroom",
+    description: "Powerful disinfectant that removes tough stains and kills 99.9% of germs, leaving your toilet sparkling clean.",
   },
   {
-    name: "Sodium Hydroxide (Caustic Soda)",
-    cas: "1310-73-2",
-    category: "Industrial",
-    grade: "Commercial Grade",
-    packaging: "25 kg Bags / Flakes",
-    description: "Essential for paper, textile, and soap industries. Available as flakes, pellets, or liquid.",
+    id: "floor-cleaner",
+    name: "Floor Cleaner",
+    category: "Floor & Surface",
+    description: "Long-lasting fragrance with deep cleaning action for all floor types. Cuts through dirt and grease effortlessly.",
+    fragrances: FLORAL_FRAGRANCES,
   },
   {
-    name: "Hydrochloric Acid",
-    cas: "7647-01-0",
-    category: "Industrial",
-    grade: "Technical Grade",
-    packaging: "35 kg Carboys",
-    description: "Used in steel pickling, pH regulation, and chemical production. Multiple concentration options.",
+    id: "gentle-liquid-soap",
+    name: "Gentle Liquid Soap (Hand Wash)",
+    category: "Personal Care",
+    description: "Mild, moisturising hand wash that cleanses gently while keeping skin soft and fresh.",
+    fragrances: HANDWASH_FRAGRANCES,
   },
   {
-    name: "Citric Acid",
-    cas: "77-92-9",
-    category: "Pharmaceutical",
-    grade: "Food / Pharma Grade",
-    packaging: "25 kg Bags",
-    description: "Natural preservative and flavoring agent for food, beverages, and pharmaceutical formulations.",
+    id: "dish-wash",
+    name: "Dish Wash Liquid",
+    category: "Kitchen",
+    description: "Tough on grease, gentle on hands. Cuts through stubborn oil for spotless, shiny utensils.",
   },
   {
-    name: "Isopropyl Alcohol (IPA)",
-    cas: "67-63-0",
-    category: "Laboratory",
-    grade: "AR / LR Grade",
-    packaging: "2.5 L / 25 L / 200 L",
-    description: "High-purity solvent for laboratory, electronics cleaning, and pharmaceutical applications.",
+    id: "fabric-detergent",
+    name: "Fabric Detergent",
+    category: "Laundry",
+    description: "High-performance liquid detergent that removes tough stains while caring for fabric colours and fibres.",
   },
   {
-    name: "Calcium Carbonate",
-    cas: "471-34-1",
-    category: "Industrial",
-    grade: "Industrial Grade",
-    packaging: "50 kg Bags",
-    description: "Filler in paints, plastics, and paper. Also used in construction and agriculture.",
+    id: "fabric-conditioner",
+    name: "Fabric Conditioner",
+    category: "Laundry",
+    description: "Softens fabrics, reduces wrinkles, and leaves clothes with a long-lasting fresh fragrance.",
   },
   {
-    name: "Urea",
-    cas: "57-13-6",
-    category: "Agricultural",
-    grade: "Agricultural Grade",
-    packaging: "50 kg Bags",
-    description: "Primary nitrogen fertilizer for crops. Also used in industrial adhesives and resins.",
+    id: "multipurpose-cleaning-liquid",
+    name: "Multipurpose Cleaning Liquid",
+    category: "Floor & Surface",
+    description: "All-in-one cleaner for floors, tiles, kitchen surfaces, and more. Disinfects and refreshes any space.",
   },
   {
-    name: "Potassium Permanganate",
-    cas: "7722-64-7",
-    category: "Specialty",
-    grade: "Technical Grade",
-    packaging: "25 kg Drums",
-    description: "Powerful oxidizer used in water treatment, disinfection, and chemical synthesis.",
+    id: "room-freshener",
+    name: "Room Freshener",
+    category: "Air Care",
+    description: "Instantly neutralises odours and fills your space with a long-lasting refreshing fragrance.",
+    fragrances: HANDWASH_FRAGRANCES,
   },
   {
-    name: "Ethanol (Denatured)",
-    cas: "64-17-5",
-    category: "Laboratory",
-    grade: "IP Grade",
-    packaging: "200 L Drums",
-    description: "Solvent for extraction, cleaning, and chemical processes. Available in multiple purity grades.",
-  },
-  {
-    name: "Zinc Sulfate",
-    cas: "7733-02-0",
-    category: "Agricultural",
-    grade: "Agricultural / Technical",
-    packaging: "25 kg Bags",
-    description: "Micronutrient supplement for soil and crops. Also used in water treatment and textiles.",
-  },
-  {
-    name: "Acetone",
-    cas: "67-64-1",
-    category: "Specialty",
-    grade: "Commercial Grade",
-    packaging: "200 L Drums / Tanker",
-    description: "Versatile solvent for paints, coatings, and pharmaceutical manufacturing.",
-  },
-  {
-    name: "Methylene Chloride (DCM)",
-    cas: "75-09-2",
-    category: "Specialty",
-    grade: "Technical Grade",
-    packaging: "250 kg Drums",
-    description: "Effective solvent for paint stripping, metal degreasing, and extraction processes.",
+    id: "glass-cleaner",
+    name: "Glass Cleaner",
+    category: "Glass Care",
+    description: "Streak-free shine for glass, mirrors, and windows. Quick-drying formula with no residue.",
   },
 ];
 
