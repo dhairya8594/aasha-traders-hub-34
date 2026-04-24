@@ -5,7 +5,7 @@ import logo from "@/assets/logo.jpeg";
 const navLinks = [
   { label: "Home", href: "/#home" },
   { label: "Services", href: "/#services" },
-  { label: "Shop", href: "/shop" },
+  { label: "Catalogue", href: "/chemicals" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];
