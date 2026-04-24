@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import chemovrLogo from "@/assets/ChemovrLogo.png";
 import { Search, Filter, FlaskConical, Plus, Minus, Trash2, FileText, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -220,6 +221,11 @@ const ChemicalCatalog = () => {
       {/* Hero Banner */}
       <section className="pt-24 pb-16 bg-primary">
         <div className="container text-center">
+          <img
+            src={chemovrLogo}
+            alt="Chemovr Clear Logo"
+            className="w-40 md:w-56 mx-auto mb-6 object-contain"
+          />
           <div className="inline-flex items-center gap-2 bg-secondary/20 text-secondary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
             <FlaskConical className="w-4 h-4" />
             Chemical Division
