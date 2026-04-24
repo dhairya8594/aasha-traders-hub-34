@@ -120,16 +120,22 @@ const products: Product[] = [
 ];
 
 type QuoteItem = {
-  cas: string;
+  key: string;
+  productId: string;
   name: string;
   size: string;
+  fragrance?: string;
   quantity: number;
 };
 
+const makeKey = (id: string, size: string, fragrance?: string) =>
+  `${id}__${size}__${fragrance ?? ""}`;
+
 const ChemicalCatalog = () => {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState<string>("All");
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
+  const [selectedFragrances, setSelectedFragrances] = useState<Record<string, string>>({});
   const [quote, setQuote] = useState<QuoteItem[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
@@ -137,37 +143,34 @@ const ChemicalCatalog = () => {
   const filtered = products.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.cas.includes(search) ||
       p.description.toLowerCase().includes(search.toLowerCase());
     const matchCategory = category === "All" || p.category === category;
     return matchSearch && matchCategory;
   });
 
-  const addToQuote = (product: Product, size: string) => {
+  const addToQuote = (product: Product, size: string, fragrance?: string) => {
+    const key = makeKey(product.id, size, fragrance);
+    const displayName = fragrance ? `${product.name} – ${fragrance}` : product.name;
     setQuote((prev) => {
-      const existing = prev.find((i) => i.cas === product.cas && i.size === size);
+      const existing = prev.find((i) => i.key === key);
       if (existing) {
-        return prev.map((i) =>
-          i.cas === product.cas && i.size === size ? { ...i, quantity: i.quantity + 1 } : i
-        );
+        return prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + 1 } : i));
       }
-      return [...prev, { cas: product.cas, name: product.name, size, quantity: 1 }];
+      return [...prev, { key, productId: product.id, name: displayName, size, fragrance, quantity: 1 }];
     });
-    toast({ title: "Added to quote", description: `${product.name} (${size})` });
+    toast({ title: "Added to quote", description: `${displayName} (${size})` });
   };
 
-  const updateQty = (cas: string, size: string, delta: number) => {
+  const updateQty = (key: string, delta: number) => {
     setQuote((prev) =>
       prev
-        .map((i) =>
-          i.cas === cas && i.size === size ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
-        )
+        .map((i) => (i.key === key ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i))
         .filter((i) => i.quantity > 0)
     );
   };
 
-  const removeItem = (cas: string, size: string) => {
-    setQuote((prev) => prev.filter((i) => !(i.cas === cas && i.size === size)));
+  const removeItem = (key: string) => {
+    setQuote((prev) => prev.filter((i) => i.key !== key));
   };
 
   const submitQuote = () => {
