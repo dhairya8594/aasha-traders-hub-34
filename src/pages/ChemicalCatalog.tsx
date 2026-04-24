@@ -260,10 +260,14 @@ const ChemicalCatalog = () => {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((product) => {
                 const sizes = product.sizes ?? SIZE_OPTIONS;
-                const selectedSize = selectedSizes[product.cas] ?? sizes[0];
+                const selectedSize = selectedSizes[product.id] ?? sizes[0];
+                const fragrances = product.fragrances;
+                const selectedFragrance = fragrances
+                  ? selectedFragrances[product.id] ?? fragrances[0]
+                  : undefined;
                 return (
                   <div
-                    key={product.cas}
+                    key={product.id}
                     className="group bg-card rounded-xl border border-border hover:border-secondary/40 transition-all duration-300 overflow-hidden flex flex-col"
                     style={{ boxShadow: "var(--shadow-card)" }}
                   >
@@ -293,34 +297,60 @@ const ChemicalCatalog = () => {
                           <span className="text-foreground">{SIZE_PACKAGING[selectedSize] ?? selectedSize}</span>
                         </div>
                       </div>
-                      <div className="mt-auto">
-                        <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-                          Select Size
-                        </label>
-                        <Select
-                          value={selectedSize}
-                          onValueChange={(v) =>
-                            setSelectedSizes((prev) => ({ ...prev, [product.cas]: v }))
-                          }
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {sizes.map((s) => (
-                              <SelectItem key={s} value={s}>
-                                {s}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                      <div className="mt-auto space-y-3">
+                        {fragrances && (
+                          <div>
+                            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                              Fragrance
+                            </label>
+                            <Select
+                              value={selectedFragrance}
+                              onValueChange={(v) =>
+                                setSelectedFragrances((prev) => ({ ...prev, [product.id]: v }))
+                              }
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {fragrances.map((f) => (
+                                  <SelectItem key={f} value={f}>
+                                    {f}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+                        <div>
+                          <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                            Select Size
+                          </label>
+                          <Select
+                            value={selectedSize}
+                            onValueChange={(v) =>
+                              setSelectedSizes((prev) => ({ ...prev, [product.id]: v }))
+                            }
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {sizes.map((s) => (
+                                <SelectItem key={s} value={s}>
+                                  {s}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
                     </div>
                     <div className="border-t border-border px-6 py-3 bg-muted/30">
                       <Button
                         size="sm"
                         className="w-full"
-                        onClick={() => addToQuote(product, selectedSize)}
+                        onClick={() => addToQuote(product, selectedSize, selectedFragrance)}
                       >
                         <Plus className="w-4 h-4" />
                         Add to Quote ({selectedSize})
@@ -366,7 +396,7 @@ const ChemicalCatalog = () => {
               <div className="flex-1 overflow-y-auto py-4 space-y-3">
                 {quote.map((item) => (
                   <div
-                    key={`${item.cas}-${item.size}`}
+                    key={item.key}
                     className="flex items-start gap-3 p-3 rounded-lg border border-border bg-card"
                   >
                     <div className="flex-1 min-w-0">
@@ -377,7 +407,7 @@ const ChemicalCatalog = () => {
                           variant="outline"
                           size="icon"
                           className="h-7 w-7"
-                          onClick={() => updateQty(item.cas, item.size, -1)}
+                          onClick={() => updateQty(item.key, -1)}
                         >
                           <Minus className="w-3 h-3" />
                         </Button>
@@ -386,7 +416,7 @@ const ChemicalCatalog = () => {
                           variant="outline"
                           size="icon"
                           className="h-7 w-7"
-                          onClick={() => updateQty(item.cas, item.size, 1)}
+                          onClick={() => updateQty(item.key, 1)}
                         >
                           <Plus className="w-3 h-3" />
                         </Button>
@@ -396,7 +426,7 @@ const ChemicalCatalog = () => {
                       variant="ghost"
                       size="icon"
                       className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                      onClick={() => removeItem(item.cas, item.size)}
+                      onClick={() => removeItem(item.key)}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
