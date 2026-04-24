@@ -8,8 +8,7 @@ const services = [
     description:
       "Industrial and specialty chemicals for diverse sectors. Strict compliance with safety standards and timely delivery across regions.",
     highlights: ["Industrial Grade", "Safety Certified", "Wide Catalogue"],
-   // catalogLink: "/chemicals",//
-    shopLink: "/shop",
+    catalogLink: "/chemicals",
   },
   {
     icon: Globe,
@@ -64,15 +63,7 @@ const ServicesSection = () => {
                     to={service.catalogLink}
                     className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
                   >
-                    View Catalog <ArrowRight className="w-4 h-4" />
-                  </Link>
-                )}
-                {service.shopLink && (
-                  <Link
-                    to={service.shopLink}
-                    className="inline-flex items-center gap-1.5 text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
-                  >
-                    Visit Shop <ArrowRight className="w-4 h-4" />
+                    View Catalogue <ArrowRight className="w-4 h-4" />
                   </Link>
                 )}
               </div>
