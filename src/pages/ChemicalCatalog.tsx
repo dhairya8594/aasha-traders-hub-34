@@ -1,9 +1,19 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Search, Filter, FlaskConical } from "lucide-react";
+import { Search, Filter, FlaskConical, Plus, Minus, Trash2, FileText, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+} from "@/components/ui/sheet";
 import {
   Select,
   SelectContent,
@@ -129,10 +139,20 @@ const products: Product[] = [
   },
 ];
 
+type QuoteItem = {
+  cas: string;
+  name: string;
+  size: string;
+  quantity: number;
+};
+
 const ChemicalCatalog = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
+  const [quote, setQuote] = useState<QuoteItem[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
 
   const filtered = products.filter((p) => {
     const matchSearch =
@@ -142,6 +162,49 @@ const ChemicalCatalog = () => {
     const matchCategory = category === "All" || p.category === category;
     return matchSearch && matchCategory;
   });
+
+  const addToQuote = (product: Product, size: string) => {
+    setQuote((prev) => {
+      const existing = prev.find((i) => i.cas === product.cas && i.size === size);
+      if (existing) {
+        return prev.map((i) =>
+          i.cas === product.cas && i.size === size ? { ...i, quantity: i.quantity + 1 } : i
+        );
+      }
+      return [...prev, { cas: product.cas, name: product.name, size, quantity: 1 }];
+    });
+    toast({ title: "Added to quote", description: `${product.name} (${size})` });
+  };
+
+  const updateQty = (cas: string, size: string, delta: number) => {
+    setQuote((prev) =>
+      prev
+        .map((i) =>
+          i.cas === cas && i.size === size ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
+        )
+        .filter((i) => i.quantity > 0)
+    );
+  };
+
+  const removeItem = (cas: string, size: string) => {
+    setQuote((prev) => prev.filter((i) => !(i.cas === cas && i.size === size)));
+  };
+
+  const submitQuote = () => {
+    if (!contact.name || !contact.email) {
+      toast({ title: "Missing info", description: "Please enter your name and email.", variant: "destructive" });
+      return;
+    }
+    toast({
+      title: "Quote request sent",
+      description: `We'll get back to you about ${quote.length} product${quote.length > 1 ? "s" : ""}.`,
+    });
+    setQuote([]);
+    setContact({ name: "", email: "", phone: "", notes: "" });
+    setDrawerOpen(false);
+  };
+
+  const totalQty = quote.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -274,13 +337,14 @@ const ChemicalCatalog = () => {
                       </div>
                     </div>
                     <div className="border-t border-border px-6 py-3 bg-muted/30">
-                      <a
-                        href="#contact"
-                        onClick={() => (window.location.href = "/#contact")}
-                        className="text-secondary hover:text-secondary/80 text-sm font-medium transition-colors"
+                      <Button
+                        size="sm"
+                        className="w-full"
+                        onClick={() => addToQuote(product, selectedSize)}
                       >
-                        Request Quote ({selectedSize}) →
-                      </a>
+                        <Plus className="w-4 h-4" />
+                        Add to Quote ({selectedSize})
+                      </Button>
                     </div>
                   </div>
                 );
