@@ -441,36 +441,6 @@ const ChemicalCatalog = () => {
                       </div>
 
                       <div className="mt-auto space-y-3">
-                        {fragrances && (
-                          <div>
-                            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-                              Fragrance
-                            </label>
-
-                            <Select
-                              value={selectedFragrance}
-                              onValueChange={(v) =>
-                                setSelectedFragrances((prev) => ({
-                                  ...prev,
-                                  [product.id]: v,
-                                }))
-                              }
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue />
-                              </SelectTrigger>
-
-                              <SelectContent>
-                                {fragrances.map((f) => (
-                                  <SelectItem key={f} value={f}>
-                                    {f}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        )}
-
                         <div>
                           <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                             Select Size
