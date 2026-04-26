@@ -45,7 +45,6 @@ const quoteSchema = new mongoose.Schema({
       productId: String,
       name: String,
       size: String,
-      fragrance: String,
       quantity: Number
     }
   ],
