@@ -164,7 +164,7 @@ const ChemicalCatalog = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("All");
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
-  const [selectedFragrances, setSelectedFragrances] = useState<Record<string, string>>({});
+  
   const [quote, setQuote] = useState<QuoteItem[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [contact, setContact] = useState({
