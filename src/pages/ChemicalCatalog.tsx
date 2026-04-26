@@ -409,9 +409,27 @@ const ChemicalCatalog = () => {
                         </Badge>
                       </div>
 
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-3">
                         {product.description}
                       </p>
+
+                      {fragrances && (
+                        <div className="mb-4">
+                          <p className="text-xs font-medium text-muted-foreground mb-1.5">
+                            Available fragrances
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {fragrances.map((f) => (
+                              <span
+                                key={f}
+                                className="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-xs font-medium border border-secondary/20"
+                              >
+                                {f}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
                       <div className="space-y-2 text-sm mb-4">
                         <div className="flex justify-between">
