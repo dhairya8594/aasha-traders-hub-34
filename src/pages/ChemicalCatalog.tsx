@@ -475,9 +475,7 @@ const ChemicalCatalog = () => {
                       <Button
                         size="sm"
                         className="w-full"
-                        onClick={() =>
-                          addToQuote(product, selectedSize, selectedFragrance)
-                        }
+                        onClick={() => addToQuote(product, selectedSize)}
                       >
                         <Plus className="w-4 h-4" />
                         Add to Quote ({selectedSize})
