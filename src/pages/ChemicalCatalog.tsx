@@ -164,7 +164,7 @@ const ChemicalCatalog = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("All");
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
-  const [selectedFragrances, setSelectedFragrances] = useState<Record<string, string>>({});
+  
   const [quote, setQuote] = useState<QuoteItem[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [contact, setContact] = useState({
@@ -379,10 +379,6 @@ const ChemicalCatalog = () => {
                 const selectedSize = selectedSizes[product.id] ?? sizes[0];
                 const fragrances = product.fragrances;
 
-                const selectedFragrance = fragrances
-                  ? selectedFragrances[product.id] ?? fragrances[0]
-                  : undefined;
-
                 return (
                   <div
                     key={product.id}
@@ -409,9 +405,27 @@ const ChemicalCatalog = () => {
                         </Badge>
                       </div>
 
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-3">
                         {product.description}
                       </p>
+
+                      {fragrances && (
+                        <div className="mb-4">
+                          <p className="text-xs font-medium text-muted-foreground mb-1.5">
+                            Available fragrances
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {fragrances.map((f) => (
+                              <span
+                                key={f}
+                                className="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-xs font-medium border border-secondary/20"
+                              >
+                                {f}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
                       <div className="space-y-2 text-sm mb-4">
                         <div className="flex justify-between">
@@ -423,36 +437,6 @@ const ChemicalCatalog = () => {
                       </div>
 
                       <div className="mt-auto space-y-3">
-                        {fragrances && (
-                          <div>
-                            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-                              Fragrance
-                            </label>
-
-                            <Select
-                              value={selectedFragrance}
-                              onValueChange={(v) =>
-                                setSelectedFragrances((prev) => ({
-                                  ...prev,
-                                  [product.id]: v,
-                                }))
-                              }
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue />
-                              </SelectTrigger>
-
-                              <SelectContent>
-                                {fragrances.map((f) => (
-                                  <SelectItem key={f} value={f}>
-                                    {f}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        )}
-
                         <div>
                           <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                             Select Size
@@ -487,9 +471,7 @@ const ChemicalCatalog = () => {
                       <Button
                         size="sm"
                         className="w-full"
-                        onClick={() =>
-                          addToQuote(product, selectedSize, selectedFragrance)
-                        }
+                        onClick={() => addToQuote(product, selectedSize)}
                       >
                         <Plus className="w-4 h-4" />
                         Add to Quote ({selectedSize})
