@@ -379,10 +379,6 @@ const ChemicalCatalog = () => {
                 const selectedSize = selectedSizes[product.id] ?? sizes[0];
                 const fragrances = product.fragrances;
 
-                const selectedFragrance = fragrances
-                  ? selectedFragrances[product.id] ?? fragrances[0]
-                  : undefined;
-
                 return (
                   <div
                     key={product.id}
