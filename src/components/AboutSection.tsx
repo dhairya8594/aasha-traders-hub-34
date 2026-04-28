@@ -1,10 +1,10 @@
 import { Award, Users, TrendingUp, MapPin } from "lucide-react";
 
 const stats = [
-  { icon: Award, value: "10+", label: "Years Experience" },
-  { icon: Users, value: "500+", label: "Happy Clients" },
-  { icon: TrendingUp, value: "1000+", label: "Orders Delivered" },
-  { icon: MapPin, value: "Pune" },
+  { icon: Award, value: "Quality Assured", label: "Premium Products" },
+  { icon: Users, value: "Customer Focuseds", label: "Dedicated Support" },
+  { icon: TrendingUp, value: "Pan India Supply", label: "Fast Delivery" },
+  { icon: MapPin, value: "Based In Pune",label: "Serving Nationwide" },
 ];
 
 const AboutSection = () => {
@@ -22,12 +22,11 @@ const AboutSection = () => {
               Quality & Commitment
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Aasha Traders is a multi-vertical trading company with deep expertise in clothing, industrial chemicals, and international trade. We pride ourselves on delivering reliable supply chain solutions with integrity.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Our experienced team ensures every transaction — from sourcing to delivery — meets the highest standards of quality and compliance, making us a trusted partner for businesses worldwide.
-            </p>
-          </div>
+            Aasha Traders is a growing multi-vertical trading company specializing in industrial chemicals, cleaning products, clothing, and export-import solutions.            </p>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+            We are committed to delivering quality products, competitive pricing, and reliable service to businesses across industries. Our focus is on building long-term relationships through transparency, trust, and timely delivery.            </p>
+            <p className="text-muted-foreground leading-relaxed ">
+            As a new-age trading company, we combine innovation, dedication, and customer-first service to meet evolving market demands.</p>          </div>
           <div className="grid grid-cols-2 gap-6">
             {stats.map((stat) => (
               <div
@@ -36,7 +35,7 @@ const AboutSection = () => {
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
                 <stat.icon className="w-8 h-8 text-secondary mx-auto mb-3" />
-                <div className="text-3xl font-heading font-bold text-foreground mb-1">
+                <div className="text-2xl font-heading font-bold text-foreground mb-1">
                   {stat.value}
                 </div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
