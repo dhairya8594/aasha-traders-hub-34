@@ -2,8 +2,8 @@ import { Award, Users, TrendingUp, MapPin } from "lucide-react";
 
 const stats = [
   { icon: Award,  value: "Premium Products",label: "Quality Assured" },
-  { icon: Users,  value: "Dedicated Support",lable: "Customer Focuseds" },
-  { icon: TrendingUp, value: "Fast Delivery",lable: "Pan India Supply" },
+  { icon: Users,  value: "Dedicated Support",label: "Customer Focuseds" },
+  { icon: TrendingUp, value: "Fast Delivery",label: "Pan India Supply" },
   { icon: MapPin, value: "Serving Nationwide",label: "Based In Pune" },
 ];
 
@@ -35,7 +35,7 @@ const AboutSection = () => {
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
                 <stat.icon className="w-8 h-8 text-secondary mx-auto mb-3" />
-                <div className="text-2xl font-heading font-bold text-foreground mb-1">
+                <div className="text-1xl font-heading font-bold text-foreground mb-1">
                   {stat.value}
                 </div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
