@@ -215,7 +215,7 @@ const ChemicalCatalog = () => {
           productId: product.id,
           name: displayName,
           size,
-          fragrance,
+          fragrances,
           quantity: 1,
         },
       ];
