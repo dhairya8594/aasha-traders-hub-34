@@ -68,7 +68,6 @@ const products: Product[] = [
     name: "Toilet Cleaner",
     category: "Bathroom",
     image: "/products/toilet-cleaner.png",
-    sizes: ["250ml", "500ml", "1L", "5L"],
     description:
       "Powerful disinfectant that removes tough stains and kills 99.9% of germs, leaving your toilet sparkling clean.",
   },
@@ -77,7 +76,6 @@ const products: Product[] = [
     name: "Floor Cleaner",
     category: "Floor & Surface",
     image: "/products/floor-cleaner.png",
-    sizes: ["500ml", "1L", "5L"],
     description:
       "Long-lasting fragrance with deep cleaning action for all floor types. Cuts through dirt and grease effortlessly.",
     fragrances: FLORAL_FRAGRANCES,
@@ -87,7 +85,6 @@ const products: Product[] = [
     name: "Gentle Liquid Soap (Hand Wash)",
     category: "Personal Care",
     image: "/products/handwash.png",
-    sizes: ["250ml", "500ml", "1L", "5L"],
     description:
       "Mild, moisturising hand wash that cleanses gently while keeping skin soft and fresh.",
     fragrances: HANDWASH_FRAGRANCES,
@@ -97,7 +94,6 @@ const products: Product[] = [
     name: "Dish Wash Liquid",
     category: "Kitchen",
     image: "/products/dish-wash.png",
-    sizes: ["250ml", "500ml", "1L", "5L"],
     description:
       "Tough on grease, gentle on hands. Cuts through stubborn oil for spotless, shiny utensils.",
   },
@@ -106,7 +102,6 @@ const products: Product[] = [
     name: "Fabric Detergent",
     category: "Laundry",
     image: "/products/fabric-detergent.png",
-    sizes: ["1L", "5L"],
     description:
       "High-performance liquid detergent that removes tough stains while caring for fabric colours and fibres.",
   },
@@ -115,7 +110,6 @@ const products: Product[] = [
     name: "Fabric Conditioner",
     category: "Laundry",
     image: "/products/fabric-conditioner.png",
-    sizes: ["500ml", "1L", "5L"],
     description:
       "Softens fabrics, reduces wrinkles, and leaves clothes with a long-lasting fresh fragrance.",
   },
@@ -124,7 +118,6 @@ const products: Product[] = [
     name: "Multipurpose Cleaning Liquid",
     category: "Floor & Surface",
     image: "/products/multipurpose-cleaner.png",
-    sizes: ["1L", "5L"],
     description:
       "All-in-one cleaner for floors, tiles, kitchen surfaces, and more. Disinfects and refreshes any space.",
   },
@@ -133,7 +126,6 @@ const products: Product[] = [
     name: "Room Freshener",
     category: "Air Care",
     image: "/products/room-freshener.png",
-    sizes: ["5L"],
     description:
       "Instantly neutralises odours and fills your space with a long-lasting refreshing fragrance.",
     fragrances: HANDWASH_FRAGRANCES,
@@ -143,7 +135,6 @@ const products: Product[] = [
     name: "Glass Cleaner",
     category: "Glass Care",
     image: "/products/glass-cleaner.png",
-    sizes: ["500ml", "1L", "5L"],
     description:
       "Streak-free shine for glass, mirrors, and windows. Quick-drying formula with no residue.",
   },
@@ -152,7 +143,6 @@ const products: Product[] = [
     name: "Car wash",
     category: "Car Care",
     image: "/products/car-cleaner.png",
-    sizes: ["5L"],
     description:
       "Streak-free shine for glass, mirrors, and windows. Quick-drying formula with no residue.",
   },
@@ -215,7 +205,7 @@ const ChemicalCatalog = () => {
           productId: product.id,
           name: displayName,
           size,
-          fragrances,
+          fragrance,
           quantity: 1,
         },
       ];
