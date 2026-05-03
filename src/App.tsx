@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import ChemicalCatalog from "./pages/ChemicalCatalog.tsx";
 import ExportDetails from "./pages/ExportDetails.tsx"
 import { Helmet } from "react-helmet-async";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
 
       <Toaster />
       <Sonner />
+      <SpeedInsights />
 
       <BrowserRouter>
         <Routes>
