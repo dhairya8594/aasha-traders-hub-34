@@ -68,7 +68,7 @@ const products: Product[] = [
     name: "Toilet Cleaner",
     category: "Bathroom",
     image: "/products/toilet-cleaner.png",
-    sizes: ["250ml","500ml","1L", "5L"],
+    sizes: ["200ml","500ml","1L", "5L"],
     description:
       "Powerful disinfectant that removes tough stains and kills 99.9% of germs, leaving your toilet sparkling clean.",
   },
@@ -87,7 +87,7 @@ const products: Product[] = [
     name: "Gentle Liquid Soap (Hand Wash)",
     category: "Personal Care",
     image: "/products/handwash.png",
-    sizes: ["250ml","500ml","1L", "5L"],
+    sizes: ["500ml","1L", "5L"],
     description:
       "Mild, moisturising hand wash that cleanses gently while keeping skin soft and fresh.",
     fragrances: HANDWASH_FRAGRANCES,
@@ -97,7 +97,7 @@ const products: Product[] = [
     name: "Dish Wash Liquid",
     category: "Kitchen",
     image: "/products/dish-wash.png",
-    sizes: ["250ml","500ml","1L", "5L"],
+    sizes: ["200ml","500ml","1L", "5L"],
     description:
       "Tough on grease, gentle on hands. Cuts through stubborn oil for spotless, shiny utensils.",
   },
